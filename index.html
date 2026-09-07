@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#030508">
+<meta name="description" content="CELIRITAS — The Next Generation of Automotive Luxury & Performance. Interactive 3D Showroom, 360° Studio, Highway Simulator, Cockpit POV & Robotic Assembly.">
+<title>CELIRITAS — Drive Beyond | Next-Gen Hyper Luxury</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/logo_c_icon.png">
+
+<style>
+:root {
+  --bg-primary: #030508;
+  --bg-secondary: #070c14;
+  --bg-card: rgba(12, 19, 31, 0.78);
+  --bg-card-hover: rgba(18, 28, 45, 0.9);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(0, 200, 255, 0.35);
+  --accent-cyan: #00d2ff;
+  --accent-blue: #0066ff;
+  --accent-gold: #f5b838;
+  --accent-red: #ff334b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+  --shadow-glow: 0 0 35px rgba(0, 210, 255, 0.25);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #030508; }
+::-webkit-scrollbar-thumb { background: #1a2536; border-radius: 4px; border: 1px solid var(--border-subtle); }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
+
+/* AMBIENT BACKGROUND GLOW */
+.ambient-mesh {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(0, 210, 255, 0.06), transparent 40%),
+    radial-gradient(circle at 85% 70%, rgba(245, 184, 56, 0.05), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(255, 51, 75, 0.04), transparent 50%);
+}
+
+/* TYPOGRAPHY & BADGES */
+h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.5px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+  text-transform: uppercase; background: rgba(0, 210, 255, 0.1);
+  color: var(--accent-cyan); border: 1px solid rgba(0, 210, 255, 0.25);
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.15);
+}
+.badge-gold {
+  background: rgba(245, 184, 56, 0.12); color: var(--accent-gold);
+  border-color: rgba(245, 184, 56, 0.3); box-shadow: 0 0 15px rgba(245, 184, 56, 0.15);
+}
+.badge-red {
+  background: rgba(255, 51, 75, 0.12); color: var(--accent-red);
+  border-color: rgba(255, 51, 75, 0.3); box-shadow: 0 0 15px rgba(255, 51, 75, 0.15);
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 13px 26px; border-radius: 14px; font-weight: 700; font-size: 14px;
+  cursor: pointer; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent; text-decoration: none; user-select: none;
+  min-height: 44px;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  color: #030508; box-shadow: 0 6px 25px rgba(0, 210, 255, 0.35);
+}
+.btn-primary:hover, .btn-primary:active {
+  transform: translateY(-2px); box-shadow: 0 10px 35px rgba(0, 210, 255, 0.55);
+}
+.btn-gold {
+  background: linear-gradient(135deg, #fcd34d, var(--accent-gold));
+  color: #030508; box-shadow: 0 6px 25px rgba(245, 184, 56, 0.35);
+}
+.btn-gold:hover, .btn-gold:active {
+  transform: translateY(-2px); box-shadow: 0 10px 35px rgba(245, 184, 56, 0.55);
+}
+.btn-glass {
+  background: rgba(255, 255, 255, 0.05); color: #fff;
+  border-color: var(--border-subtle); backdrop-filter: blur(10px);
+}
+.btn-glass:hover, .btn-glass:active {
+  background: rgba(255, 255, 255, 0.12); border-color: var(--accent-cyan);
+  transform: translateY(-2px);
+}
+
+/* NAVBAR */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 76px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 6%; background: rgba(3, 5, 8, 0.88); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.brand-logo {
+  display: flex; align-items: center; gap: 12px; text-decoration: none;
+}
+.brand-c-logo {
+  height: 38px; width: auto; object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(0, 210, 255, 0.45));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.brand-wordmark-logo {
+  height: 20px; width: auto; object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.25));
+}
+.brand-logo:hover .brand-c-logo {
+  transform: scale(1.08) rotate(-4deg);
+}
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  color: var(--text-muted); font-size: 14px; font-weight: 600; text-decoration: none;
+  transition: 0.25s; position: relative; padding: 6px 0;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--accent-cyan); }
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+  background: var(--accent-cyan); transition: 0.3s;
+}
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+.nav-actions { display: flex; align-items: center; gap: 12px; }
+.sound-toggle-btn {
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-subtle);
+  color: var(--text-muted); width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer; transition: 0.25s; font-size: 16px;
+}
+.sound-toggle-btn:hover { color: var(--accent-cyan); border-color: var(--accent-cyan); }
+.mobile-menu-btn {
+  display: none; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-subtle);
+  color: #fff; width: 42px; height: 42px; border-radius: 12px; font-size: 22px; cursor: pointer;
+  align-items: center; justify-content: center;
+}
+
+/* HERO SECTION */
+.hero {
+  min-height: 100vh; padding: 120px 6% 60px;
+  display: grid; grid-template-columns: 1.1fr 1.3fr; align-items: center; gap: 40px;
+  position: relative; z-index: 1; max-width: 1440px; margin: 0 auto;
+}
+.hero-content h1 {
+  font-size: clamp(40px, 5.5vw, 76px); line-height: 1.05; font-weight: 900;
+  margin: 20px 0; letter-spacing: -2.5px;
+}
+.hero-content h1 .gradient-text {
+  background: linear-gradient(135deg, #fff 20%, var(--accent-cyan) 80%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-content p {
+  font-size: clamp(15px, 2vw, 18px); color: var(--text-muted); max-width: 540px; margin-bottom: 32px;
+}
+.hero-actions-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 36px; }
+
+.hero-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  padding-top: 24px; border-top: 1px solid var(--border-subtle); max-width: 520px;
+}
+.stat-num {
+  font-family: var(--font-display); font-size: 26px; font-weight: 800; color: #fff;
+}
+.stat-num span { color: var(--accent-cyan); font-size: 16px; }
+.stat-desc { font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-weight: 700; }
+
+.hero-visual { position: relative; display: grid; place-items: center; width: 100%; }
+.hero-card-glow {
+  width: 100%; border-radius: var(--radius-lg); background: var(--bg-card);
+  border: 1px solid var(--border-glow); padding: 20px; position: relative;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), var(--shadow-glow);
+  backdrop-filter: blur(20px); overflow: hidden;
+}
+.hero-view-mode-toggle {
+  position: absolute; top: 28px; right: 28px; z-index: 10;
+  display: flex; gap: 8px;
+}
+.hero-toggle-btn {
+  background: rgba(3, 5, 8, 0.8); border: 1px solid var(--border-subtle);
+  color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 11px;
+  font-weight: 700; cursor: pointer; transition: 0.2s; backdrop-filter: blur(10px);
+}
+.hero-toggle-btn:hover, .hero-toggle-btn.active {
+  background: var(--accent-cyan); color: #030508; border-color: var(--accent-cyan);
+}
+.hero-showcase-stage {
+  position: relative; width: 100%; height: 380px; border-radius: 16px;
+  overflow: hidden; background: #000;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-video-render { width: 100%; height: 100%; object-fit: cover; }
+.hero-floating-hud {
+  margin-top: 16px; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 10px;
+}
+
+/* 3D INTERACTIVE STUDIOS SECTION */
+.section-wrap { padding: 90px 6%; position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; }
+.section-header { text-align: center; max-width: 780px; margin: 0 auto 40px; }
+.section-header h2 {
+  font-size: clamp(30px, 4vw, 50px); margin: 14px 0 10px; font-weight: 800;
+}
+.section-header p { color: var(--text-muted); font-size: 16px; }
+
+.studio-tabs {
+  display: flex; justify-content: center; gap: 10px; margin-bottom: 32px; flex-wrap: wrap;
+}
+.studio-tab-btn {
+  background: var(--bg-card); border: 1px solid var(--border-subtle);
+  color: var(--text-muted); padding: 12px 22px; border-radius: 14px;
+  font-family: var(--font-display); font-weight: 700; font-size: 13px;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.25s ease; white-space: nowrap;
+}
+.studio-tab-btn:hover { color: #fff; border-color: rgba(255,255,255,0.2); }
+.studio-tab-btn.active {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.18), rgba(0, 102, 255, 0.25));
+  color: #fff; border-color: var(--accent-cyan);
+  box-shadow: 0 0 25px rgba(0, 210, 255, 0.3);
+}
+
+.studio-container {
+  background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(25px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7); display: none;
+}
+.studio-container.active { display: block; animation: fadeIn 0.4s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* 1. C1 360° LUXURY TURNTABLE STUDIO */
+.c1-studio-grid {
+  display: grid; grid-template-columns: 1.3fr 1fr; gap: 36px; padding: 36px; align-items: center;
+}
+.c1-viewport-3d {
+  position: relative; background: radial-gradient(circle at 50% 50%, #1e1805 0%, #050401 80%);
+  border-radius: var(--radius-lg); border: 2px solid rgba(245, 184, 56, 0.45);
+  min-height: 460px; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; perspective: 1400px; cursor: grab; user-select: none;
+  touch-action: pan-y;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 184, 56, 0.2);
+  transition: all 0.3s ease; padding: 20px;
+}
+.c1-viewport-3d:active { cursor: grabbing; }
+.c1-viewport-3d.fullscreen-active {
+  position: fixed; inset: 0; z-index: 9999; border-radius: 0; min-height: 100vh; width: 100vw; padding: 40px;
+}
+.c1-turntable-base {
+  position: absolute; bottom: 25px; width: 88%; height: 85px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(245, 184, 56, 0.35) 0%, rgba(245, 184, 56, 0.08) 60%, transparent 80%);
+  border: 2px solid rgba(245, 184, 56, 0.5);
+  transform: rotateX(68deg); box-shadow: 0 0 45px rgba(245, 184, 56, 0.35);
+  display: grid; place-items: center; transition: transform 0.1s ease;
+  pointer-events: none;
+}
+.turntable-c-emblem {
+  width: 65px; height: 65px; border-radius: 50%;
+  border: 3px solid var(--accent-gold); display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 900; font-size: 34px;
+  color: var(--accent-gold); text-shadow: 0 0 20px var(--accent-gold);
+  transform: rotateX(-68deg);
+}
+.c1-car-holder {
+  position: relative; z-index: 5; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+  transition: transform 0.15s ease-out;
+}
+.c1-hero-car-img {
+  width: 100%; height: auto; max-width: 820px; max-height: 400px; object-fit: contain;
+  border-radius: 16px; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.85));
+  transition: opacity 0.2s ease, filter 0.3s ease;
+}
+.headlight-beam {
+  position: absolute; bottom: 110px; right: 35px; width: 260px; height: 120px;
+  background: radial-gradient(ellipse at right, rgba(0, 210, 255, 0.5) 0%, rgba(0, 210, 255, 0.05) 60%, transparent 80%);
+  filter: blur(16px); pointer-events: none; opacity: 0; transition: opacity 0.3s ease;
+  transform: rotate(-15deg);
+}
+.headlight-beam.active { opacity: 1; }
+
+.c1-controls-box { display: flex; flex-direction: column; gap: 18px; }
+.angle-slider-container {
+  background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle);
+  padding: 16px 20px; border-radius: 16px; display: flex; flex-direction: column; gap: 10px;
+}
+.angle-slider {
+  width: 100%; accent-color: var(--accent-gold); height: 6px; cursor: pointer;
+}
+.angle-quick-pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.angle-pill-btn {
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle);
+  color: var(--text-muted); padding: 8px 6px; border-radius: 8px; font-size: 12px;
+  font-weight: 700; cursor: pointer; text-align: center; transition: 0.2s;
+}
+.angle-pill-btn.active, .angle-pill-btn:hover {
+  background: rgba(245, 184, 56, 0.15); color: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+.studio-feature-switches {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px;
+}
+.switch-btn {
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle);
+  color: #fff; padding: 10px 16px; border-radius: 10px; font-size: 13px; font-weight: 700;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s;
+}
+.switch-btn.active, .switch-btn:hover {
+  background: rgba(0, 210, 255, 0.15); color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}
+
+/* 2. S2 HIGHWAY DRIVE SIMULATOR */
+.s2-stage-viewport {
+  position: relative; height: 480px; overflow: hidden; background: #030508;
+  border-radius: var(--radius-lg); border: 2px solid rgba(255, 51, 75, 0.35);
+}
+.s2-driving-video {
+  width: 100%; height: 100%; object-fit: cover;
+}
+#speedParticlesCanvas {
+  position: absolute; inset: 0; pointer-events: none; z-index: 2; width: 100%; height: 100%;
+}
+.s2-cockpit-hud {
+  position: absolute; bottom: 25px; left: 25px; right: 25px; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;
+}
+.speed-dial-gauge {
+  background: rgba(3, 5, 8, 0.88); backdrop-filter: blur(20px);
+  padding: 12px 22px; border-radius: 18px; border: 1px solid rgba(255, 51, 75, 0.35);
+  display: flex; align-items: center; gap: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+.dial-speed-value {
+  font-family: var(--font-mono); font-size: 38px; font-weight: 900; color: var(--accent-red);
+  line-height: 1; text-shadow: 0 0 20px rgba(255, 51, 75, 0.6);
+}
+.throttle-hold-btn {
+  background: linear-gradient(135deg, #ff334b, #b91c1c); color: #fff;
+  border: none; padding: 14px 28px; border-radius: 14px; font-family: var(--font-display);
+  font-size: 14px; font-weight: 800; cursor: pointer; letter-spacing: 1px;
+  box-shadow: 0 8px 25px rgba(255, 51, 75, 0.4); user-select: none; transition: 0.15s;
+}
+.throttle-hold-btn:active { transform: scale(0.96); box-shadow: 0 4px 15px rgba(255, 51, 75, 0.7); }
+
+/* 3. V3 COASTAL DRONE & COCKPIT POV */
+.v3-studio-wrap { padding: 30px; }
+.v3-viewport-container {
+  position: relative; height: 480px; border-radius: var(--radius-md);
+  overflow: hidden; border: 1px solid var(--border-glow); background: #000;
+}
+.v3-driving-video {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.drone-telemetry-hud {
+  position: absolute; top: 20px; left: 20px;
+  background: rgba(3, 5, 8, 0.78); backdrop-filter: blur(12px);
+  padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border-subtle);
+  font-family: var(--font-mono); font-size: 11px; display: flex; align-items: center; gap: 10px;
+}
+.rec-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-red); animation: pulseDot 1.2s infinite; }
+@keyframes pulseDot { 50% { opacity: 0.2; } }
+
+/* 4. X5 ROBOTIC ASSEMBLY & CINEMATIC SHOWCASE */
+.x5-studio-wrap { padding: 30px; }
+.x5-factory-canvas-stage {
+  position: relative; height: 480px; border-radius: var(--radius-md);
+  overflow: hidden; border: 1px solid var(--border-glow); background: #04070d;
+}
+.x5-assembly-video { width: 100%; height: 100%; object-fit: cover; }
+.x5-floating-bottom-hud {
+  position: absolute; bottom: 20px; left: 20px; right: 20px;
+  background: rgba(3, 5, 8, 0.88); backdrop-filter: blur(20px);
+  padding: 14px 20px; border-radius: 16px; border: 1px solid var(--border-subtle);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; z-index: 10;
+}
+
+/* FLEET SHOWCASE GRID */
+.fleet-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+}
+.car-fleet-card {
+  background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); overflow: hidden; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex; flex-direction: column; backdrop-filter: blur(20px);
+}
+.car-fleet-card:hover {
+  transform: translateY(-6px); border-color: var(--accent-cyan);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), var(--shadow-glow);
+}
+.car-fleet-thumb {
+  height: 200px; position: relative; overflow: hidden; background: #060a12;
+}
+.car-fleet-thumb img {
+  width: 100%; height: 100%; object-fit: cover; transition: 0.4s;
+}
+.car-fleet-card:hover .car-fleet-thumb img { transform: scale(1.06); }
+.fleet-card-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+.fleet-card-body h3 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.fleet-card-body .subtitle { color: var(--text-muted); font-size: 13px; margin-bottom: 16px; flex: 1; }
+.fleet-price-badge { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 18px; }
+
+/* CONFIGURATOR UPGRADED UI/UX */
+.configurator-wrapper {
+  max-width: 1240px; margin: auto; display: grid; grid-template-columns: 1.1fr 1fr;
+  gap: 32px; background: var(--bg-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: 32px; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(25px);
+}
+.config-preview-col { display: flex; flex-direction: column; gap: 16px; }
+.config-preview-box {
+  background: #040810; border: 1px solid var(--border-glow); border-radius: var(--radius-md);
+  min-height: 380px; height: 100%; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 0; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+.config-preview-box img {
+  width: 100%; height: 100%; min-height: 380px; object-fit: cover; object-position: center;
+  border-radius: inherit; transition: transform 0.4s ease, opacity 0.3s ease; display: block;
+}
+.config-preview-badge {
+  position: absolute; top: 16px; left: 16px; z-index: 5;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  background: rgba(3, 5, 8, 0.85); border: 1px solid var(--border-glow);
+  color: var(--accent-cyan); padding: 6px 14px; border-radius: 20px;
+  backdrop-filter: blur(10px); text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* LIVE DYNAMIC SPEC PILLS */
+.config-live-specs {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+}
+.config-spec-pill {
+  background: rgba(4, 8, 16, 0.75); border: 1px solid var(--border-subtle);
+  border-radius: 12px; padding: 10px; text-align: center;
+  backdrop-filter: blur(10px); transition: border-color 0.25s;
+}
+.config-spec-pill .spec-lbl {
+  display: block; font-size: 9px; font-weight: 800; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px;
+}
+.config-spec-pill strong {
+  font-family: var(--font-display); font-size: 14px; font-weight: 800; color: #fff;
+}
+
+/* OPTIONS COLUMN */
+.config-options-col { display: flex; flex-direction: column; gap: 20px; }
+.config-section-group { display: flex; flex-direction: column; gap: 10px; }
+.config-group-title {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--text-dim);
+  text-transform: uppercase;
+}
+.config-highlight-text {
+  font-family: var(--font-display); font-size: 12px; font-weight: 700;
+  color: var(--accent-cyan); text-transform: none; letter-spacing: 0;
+}
+
+/* MODEL SELECTOR CARDS */
+.config-model-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.config-model-card {
+  background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle);
+  border-radius: 14px; padding: 12px 14px; text-align: left; cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
+  display: flex; flex-direction: column; gap: 4px; color: #fff; font-family: var(--font-body);
+}
+.config-model-card:hover {
+  background: rgba(255, 255, 255, 0.06); border-color: rgba(0, 210, 255, 0.3);
+  transform: translateY(-2px);
+}
+.config-model-card.active {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.12), rgba(0, 102, 255, 0.16));
+  border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0, 210, 255, 0.25);
+}
+.model-card-header { display: flex; justify-content: space-between; align-items: center; }
+.model-code {
+  font-family: var(--font-display); font-size: 17px; font-weight: 900;
+  color: #fff;
+}
+.config-model-card.active .model-code { color: var(--accent-cyan); }
+.model-price {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--accent-gold);
+}
+.model-card-name { font-size: 13px; font-weight: 700; color: #f1f5f9; }
+.model-card-desc { font-size: 11px; color: var(--text-dim); }
+
+/* TRIM & TECH LIST CARDS */
+.config-trim-list { display: flex; flex-direction: column; gap: 8px; }
+.config-trim-card {
+  background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle);
+  border-radius: 14px; padding: 12px 14px; text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: 14px; color: #fff; font-family: var(--font-body);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.config-trim-card:hover {
+  background: rgba(255, 255, 255, 0.06); border-color: rgba(0, 210, 255, 0.3);
+}
+.config-trim-card.active {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(0, 102, 255, 0.12));
+  border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0, 210, 255, 0.15);
+}
+.trim-radio-indicator {
+  width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--text-dim);
+  display: grid; place-items: center; flex-shrink: 0; transition: 0.2s;
+}
+.config-trim-card.active .trim-radio-indicator {
+  border-color: var(--accent-cyan);
+}
+.trim-radio-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--accent-cyan);
+  opacity: 0; transform: scale(0.5); transition: 0.2s;
+}
+.config-trim-card.active .trim-radio-dot {
+  opacity: 1; transform: scale(1);
+}
+.trim-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.trim-title-row { display: flex; justify-content: space-between; align-items: center; }
+.trim-name { font-size: 13px; font-weight: 700; color: #f1f5f9; }
+.trim-price-tag {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  color: var(--text-dim);
+}
+.trim-price-tag.trim-add { color: var(--accent-cyan); }
+.trim-desc { font-size: 11px; color: var(--text-dim); }
+
+/* COLOR PICKER */
+.color-picker-grid { display: flex; gap: 12px; margin-top: 4px; }
+.color-dot {
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15);
+  cursor: pointer; transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+.color-dot:hover { transform: scale(1.12); }
+.color-dot.active {
+  outline: 2px solid var(--accent-cyan); outline-offset: 3px;
+  transform: scale(1.15); box-shadow: 0 0 18px var(--accent-cyan);
+}
+
+/* SUMMARY BAR */
+.config-summary-bar {
+  background: #030508; border: 1px solid var(--border-subtle); padding: 18px 22px;
+  border-radius: 16px; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 14px; margin-top: 4px;
+}
+.config-calculated-price {
+  font-family: var(--font-display); font-size: 26px; font-weight: 900;
+  color: var(--accent-cyan); text-shadow: 0 0 20px rgba(0, 210, 255, 0.35);
+}
+
+/* TEST DRIVE & PASS GENERATOR */
+.test-drive-card {
+  max-width: 860px; margin: auto; background: var(--bg-card);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+  padding: 40px; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px); text-align: center;
+}
+.td-grid-form {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; text-align: left;
+}
+.td-input-field {
+  width: 100%; padding: 13px 16px; background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle); border-radius: 12px;
+  color: #fff; font-family: var(--font-body); font-size: 14px; outline: none; transition: 0.25s;
+}
+.td-input-field:focus { border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
+.span-full { grid-column: span 2; }
+
+/* VIP PASS MODAL */
+.vip-pass-modal {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px);
+  z-index: 2000; display: none; place-items: center; padding: 20px;
+}
+.vip-pass-modal.active { display: grid; }
+.vip-ticket-card {
+  background: linear-gradient(145deg, #091220, #03060c);
+  border: 1px solid rgba(0, 210, 255, 0.4); border-radius: var(--radius-lg);
+  padding: 36px; max-width: 440px; width: 100%; text-align: center;
+  box-shadow: 0 0 50px rgba(0, 210, 255, 0.35); position: relative;
+  animation: modalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes modalPop { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+
+/* FOOTER */
+footer {
+  padding: 40px 6%; border-top: 1px solid var(--border-subtle);
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--text-dim); font-size: 13px; position: relative; z-index: 1;
+  max-width: 1440px; margin: 0 auto;
+}
+
+/* =========================================
+   RESPONSIVE BREAKPOINTS (MOBILE & TABLET)
+========================================= */
+@media (max-width: 1100px) {
+  .hero { grid-template-columns: 1fr; padding-top: 110px; gap: 30px; text-align: center; }
+  .hero-content p { margin: 0 auto 28px; }
+  .hero-actions-row { justify-content: center; }
+  .hero-stats { margin: 0 auto; }
+  .fleet-grid { grid-template-columns: repeat(2, 1fr); }
+  .c1-studio-grid, .configurator-wrapper { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .nav { padding: 0 4%; height: 68px; }
+  .brand-c-logo { height: 32px; }
+  .brand-wordmark-logo { height: 16px; }
+  .nav-links {
+    display: none; flex-direction: column; position: absolute;
+    top: 68px; left: 0; right: 0; background: rgba(3, 5, 8, 0.98);
+    backdrop-filter: blur(25px); padding: 24px 6%; border-bottom: 1px solid var(--border-subtle);
+    gap: 16px;
+  }
+  .nav-links.active { display: flex; }
+  .mobile-menu-btn { display: flex; }
+  .nav-actions .btn-primary { display: none; }
+
+  .section-wrap { padding: 60px 4%; }
+  .hero { padding: 90px 4% 40px; }
+  .hero-showcase-stage { height: 280px; }
+  .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stat-num { font-size: 20px; }
+
+  .studio-tabs {
+    justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap;
+    padding-bottom: 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .studio-tabs::-webkit-scrollbar { display: none; }
+  .studio-tab-btn { padding: 10px 16px; font-size: 12px; }
+
+  .c1-studio-grid { padding: 20px; gap: 20px; }
+  .c1-viewport-3d { min-height: 320px; padding: 10px; }
+  .c1-hero-car-img { max-height: 240px; }
+  .c1-turntable-base { height: 60px; bottom: 15px; }
+  .turntable-c-emblem { width: 45px; height: 45px; font-size: 24px; }
+  .angle-quick-pills { grid-template-columns: repeat(3, 1fr); }
+  .angle-pill-btn { padding: 6px 4px; font-size: 11px; }
+
+  .s2-stage-viewport, .v3-viewport-container, .x5-factory-canvas-stage { height: 320px; }
+  .v3-studio-wrap, .x5-studio-wrap { padding: 16px; }
+  .s2-cockpit-hud { bottom: 14px; left: 14px; right: 14px; flex-direction: column; align-items: stretch; gap: 10px; }
+  .speed-dial-gauge { justify-content: center; padding: 8px 16px; }
+  .dial-speed-value { font-size: 28px; }
+  .throttle-hold-btn { padding: 12px 20px; font-size: 13px; width: 100%; text-align: center; }
+
+  .fleet-grid, .td-grid-form { grid-template-columns: 1fr; }
+  .td-grid-form .span-full { grid-column: auto; }
+  .configurator-wrapper, .test-drive-card { padding: 18px; gap: 20px; }
+  .config-preview-box { min-height: 260px; }
+  .config-preview-box img { min-height: 260px; }
+  .config-live-specs { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .config-model-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .config-model-card { padding: 10px 12px; }
+  .model-code { font-size: 15px; }
+  .model-price { font-size: 11px; }
+  .model-card-name { font-size: 12px; }
+  .config-trim-card { padding: 10px 12px; gap: 10px; }
+  .trim-name { font-size: 12px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 30px 4%; }
+}
+</style>
+</head>
+<body>
+
+<div class="ambient-mesh"></div>
+
+<!-- NAVIGATION BAR -->
+<nav class="nav">
+  <a class="brand-logo" href="#home">
+    <img src="assets/logo_c_icon.png" alt="Celiritas Emblem" class="brand-c-logo">
+    <img src="assets/logo_wordmark.png" alt="CELIRITAS" class="brand-wordmark-logo">
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" class="active" onclick="closeMobileNav()">Home</a></li>
+    <li><a href="#studios" onclick="closeMobileNav()">3D Studios</a></li>
+    <li><a href="#fleet" onclick="closeMobileNav()">All Models</a></li>
+    <li><a href="#configurator" onclick="closeMobileNav()">Configurator</a></li>
+    <li><a href="#testdrive" onclick="closeMobileNav()">VIP Test Drive</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <button id="soundToggle" class="sound-toggle-btn" title="Toggle Sound Engine" onclick="toggleAudioEngine()">
+      🔊
+    </button>
+    <a href="#testdrive" class="btn btn-primary" style="padding: 9px 20px; font-size: 13px;">Book Test Drive</a>
+    <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Toggle menu">☰</button>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="badge">NEXT GENERATION AUTOMOTIVE INNOVATION</div>
+    <h1>Drive<br><span class="gradient-text">Beyond Reality.</span></h1>
+    <p>
+      Step into the world of Celiritas. Ultra-smooth 360° digital orbits, real-time highway simulators, immersive driver cockpit views, and robotic factory assembly.
+    </p>
+
+    <div class="hero-actions-row">
+      <a href="#studios" class="btn btn-primary" onclick="playHapticSound('click')">Launch 3D Studios →</a>
+      <a href="#configurator" class="btn btn-glass" onclick="playHapticSound('click')">Build Your Custom Car</a>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">360<span>°</span></div>
+        <div class="stat-desc">Digital Showroom</div>
+      </div>
+      <div>
+        <div class="stat-num">2.9<span>s</span></div>
+        <div class="stat-desc">0-100 KM/H Flagship</div>
+      </div>
+      <div>
+        <div class="stat-num">720<span>km</span></div>
+        <div class="stat-desc">Electric Range</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card-glow">
+      <div style="position: absolute; top: 28px; left: 28px; z-index: 10;">
+        <span class="badge" style="background: rgba(0, 210, 255, 0.2); border-color: var(--accent-cyan); color: #fff; font-size: 10px; padding: 4px 10px;">
+          🎬 4K CINEMATIC REVEAL
+        </span>
+      </div>
+
+      <div class="hero-view-mode-toggle">
+        <button id="heroVideoPlayBtn" class="hero-toggle-btn active" onclick="toggleHeroVideoPlay()">⏸ Pause</button>
+        <button id="heroVideoMuteBtn" class="hero-toggle-btn" onclick="toggleHeroVideoMute()">🔊 Unmute</button>
+      </div>
+
+      <div class="hero-showcase-stage">
+        <video id="heroX5VideoPlayer" class="hero-video-render" autoplay loop muted playsinline preload="auto" poster="assets/x5.jpg">
+          <source src="assets/media/x5-reveal-hero.mp4" type="video/mp4">
+          <source src="assets/media/x5-assembly.mp4" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
+
+      <div class="hero-floating-hud">
+        <div>
+          <h3 style="font-size: 18px; font-weight: 800; display:flex; align-items:center; gap:8px;">
+            CELIRITAS X5 <span class="badge" style="padding:2px 8px; font-size:9px;">FLAGSHIP SUV</span>
+          </h3>
+          <span style="font-size: 12px; color: var(--text-muted);">Precision Monocoque Creation • Official Motion Reveal</span>
+        </div>
+        <a href="#studios" class="btn btn-primary" style="padding: 8px 18px; font-size: 12px;" onclick="switchStudioTab('x5')">3D Lab →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D INTERACTIVE STUDIOS SECTION -->
+<section class="section-wrap" id="studios">
+  <div class="section-header">
+    <div class="badge">EXPERIENCE LAB 2.0</div>
+    <h2>Feel Every Dimension</h2>
+    <p>Select any vehicle below to experience authentic 360° rotations, evening highway runs, drone-to-cockpit transitions, and robotic factory creation.</p>
+  </div>
+
+  <!-- STUDIO SWITCHER TABS -->
+  <div class="studio-tabs">
+    <button class="studio-tab-btn active" data-tab="c1" onclick="switchStudioTab('c1', this)">🟡 C1 — 360° Luxury Orbit</button>
+    <button class="studio-tab-btn" data-tab="s2" onclick="switchStudioTab('s2', this)">🔴 S2 — Highway Throttle Run</button>
+    <button class="studio-tab-btn" data-tab="v3" onclick="switchStudioTab('v3', this)">🌊 V3 — Drone & Cockpit POV</button>
+    <button class="studio-tab-btn" data-tab="x5" onclick="switchStudioTab('x5', this)">⚙️ X5 — Robotic Assembly</button>
+  </div>
+
+  <!-- 1. C1 STUDIO (360° TURNTABLE & HEADLIGHTS) -->
+  <div id="studio-c1" class="studio-container active">
+    <div class="c1-studio-grid">
+      <div class="c1-viewport-3d" id="c13dViewport">
+        <div class="c1-turntable-base" id="c1TurntableBase">
+          <div class="turntable-c-emblem">C</div>
+        </div>
+
+        <div class="headlight-beam" id="c1HeadlightBeam"></div>
+
+        <div class="c1-car-holder" id="c1CarHolder">
+          <img id="c1DisplayImg" class="c1-hero-car-img" src="assets/media/c1-yellow-reference.jpeg" alt="Celiritas C1 Yellow Flagship Urban Hatchback">
+        </div>
+
+        <div style="position: absolute; top: 20px; left: 20px; z-index: 10;" class="badge badge-gold">
+          ◈ CELIRITAS C1 • FULL HD SHOWROOM
+        </div>
+
+        <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
+          <button class="switch-btn" style="background: rgba(4,7,12,0.85); border-color: rgba(245,184,56,0.4); padding: 6px 12px; font-size: 11px;" onclick="toggleC1Fullscreen()">
+            ⛶ Fullscreen
+          </button>
+        </div>
+
+        <div style="position: absolute; bottom: 15px; font-size: 11px; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.75); backdrop-filter: blur(10px); padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border-subtle); z-index: 10;">
+          🔄 Drag left/right & up/down to inspect C1
+        </div>
+      </div>
+
+      <div class="c1-controls-box">
+        <div class="badge badge-gold">URBAN HATCHBACK FLAGSHIP</div>
+        <h3 style="font-size: clamp(24px, 3.5vw, 32px); font-weight: 800; margin: 4px 0;">Seamless 360° Orbit</h3>
+        <p style="color: var(--text-muted); font-size: 14px;">
+          Inspect aerodynamic contours, signature <strong>"C"</strong> door livery, and glossy studio reflections across full angles in Full HD.
+        </p>
+
+        <div class="angle-slider-container">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: 700; color: var(--accent-gold);">Live Orbital Angle:</span>
+            <span id="c1AngleDisplay" style="font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: #fff;">0° Front</span>
+          </div>
+          <input type="range" id="c1AngleSlider" class="angle-slider" min="0" max="360" value="0" aria-label="C1 Orbital Angle">
+
+          <div class="angle-quick-pills">
+            <button class="angle-pill-btn active" onclick="setC1AngleTarget(0)">0° Front</button>
+            <button class="angle-pill-btn" onclick="setC1AngleTarget(45)">45° Quarter</button>
+            <button class="angle-pill-btn" onclick="setC1AngleTarget(90)">90° Profile</button>
+            <button class="angle-pill-btn" onclick="setC1AngleTarget(180)">180° Rear</button>
+            <button class="angle-pill-btn" onclick="setC1AngleTarget(270)">270° Side</button>
+            <button class="angle-pill-btn" onclick="setC1AngleTarget(360)">360° Return</button>
+          </div>
+        </div>
+
+        <div class="studio-feature-switches">
+          <button id="c1AutoSpinBtn" class="btn btn-gold" style="padding: 10px 18px; font-size: 13px;" onclick="toggleC1AutoSpin()">⏸ Pause 8s Spin</button>
+          <button id="c1HeadlightBtn" class="switch-btn" onclick="toggleC1Headlights()">💡 Headlights: OFF</button>
+          <button class="btn btn-glass" style="padding: 10px 18px; font-size: 13px;" onclick="jumpToConfig('c1')">Configure C1 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. S2 STUDIO (HIGHWAY RUN & SPEED THROTTLE) -->
+  <div id="studio-s2" class="studio-container">
+    <div class="s2-stage-viewport">
+      <video id="s2DrivingVideo" class="s2-driving-video" autoplay muted loop playsinline preload="metadata" poster="assets/s2.jpg">
+        <source src="assets/media/s2-driving.mp4" type="video/mp4">
+      </video>
+      <canvas id="speedParticlesCanvas"></canvas>
+
+      <div class="s2-cockpit-hud">
+        <div class="speed-dial-gauge">
+          <div>
+            <div class="dial-speed-value" id="s2SpeedNum">128</div>
+            <div style="font-size: 10px; letter-spacing: 1.5px; color: var(--text-dim); text-transform: uppercase;">KM/H • REAR TYRE GRIP</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <button id="s2ThrottleBtn" class="throttle-hold-btn" onmousedown="startS2Acceleration()" onmouseup="stopS2Acceleration()" ontouchstart="startS2Acceleration()" ontouchend="stopS2Acceleration()">
+            ⚡ HOLD THROTTLE BOOST
+          </button>
+          <button class="switch-btn active" onclick="switchS2Camera(0, this)">🏎️ Side Track</button>
+          <button class="switch-btn" onclick="switchS2Camera(1, this)">🔥 Front Dynamic</button>
+          <button class="switch-btn" onclick="switchS2Camera(2, this)">🌆 Sunset Rear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. V3 STUDIO (COASTAL DRONE & DRIVER POV COCKPIT) -->
+  <div id="studio-v3" class="studio-container">
+    <div class="v3-studio-wrap">
+      <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+        <button id="v3DroneTab" class="switch-btn active" onclick="setV3ViewMode('drone')">🚁 4K Coastal Drone View</button>
+        <button id="v3CockpitTab" class="switch-btn" onclick="setV3ViewMode('cockpit')">🏎️ Inside Driver Cockpit POV</button>
+      </div>
+
+      <div class="v3-viewport-container" id="v3ViewportBox">
+        <video id="v3DrivingVideo" class="v3-driving-video" autoplay muted playsinline preload="auto" poster="assets/v3_drone.jpg">
+          <source src="assets/media/v3-driving.mp4" type="video/mp4">
+        </video>
+
+        <!-- Drone Cam Telemetry -->
+        <div id="v3DroneTelemetry" class="drone-telemetry-hud">
+          <div class="rec-dot"></div>
+          <span>4K DRONE CAM • PACIFIC COASTAL HIGHWAY • ELEVATION 140M</span>
+        </div>
+
+        <!-- Cockpit HUD & Controls -->
+        <div id="v3CockpitOverlay" style="display: none; position: absolute; top: 20px; right: 20px; background: rgba(3,5,8,0.85); backdrop-filter: blur(15px); padding: 14px 20px; border-radius: 14px; border: 1px solid var(--border-glow); z-index: 10;">
+          <div style="font-family: var(--font-mono); font-size: 12px; display: flex; flex-direction: column; gap: 6px;">
+            <div>SPEED: <strong id="v3CockpitSpeed" style="color: var(--accent-cyan); font-size: 15px;">112 KM/H</strong></div>
+            <div>GEAR: <strong style="color: #fff;">D7 (SPORT MODE)</strong></div>
+            <div>TERRAIN: <strong style="color: var(--accent-gold);">COASTAL CURVE</strong></div>
+          </div>
+          <button class="btn btn-primary" style="margin-top: 10px; width: 100%; padding: 8px; font-size: 12px;" onclick="accelerateV3Cockpit()">⚡ Push Speed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. X5 STUDIO (CLEAN FULL-FRAME CINEMA SHOWCASE) -->
+  <div id="studio-x5" class="studio-container">
+    <div class="x5-studio-wrap">
+      <div class="x5-factory-canvas-stage">
+        <video id="x5AssemblyVideo" class="x5-assembly-video" autoplay muted loop playsinline preload="metadata" poster="assets/x5.jpg">
+          <source src="assets/media/x5-assembly.mp4" type="video/mp4">
+        </video>
+
+        <div style="position: absolute; top: 20px; left: 20px; z-index: 10;">
+          <span class="badge" style="font-size: 11px; padding: 6px 14px; background: rgba(0, 210, 255, 0.15); border-color: var(--accent-cyan);">
+            ◈ CELIRITAS X5 • ROBOTIC CREATION • 4K CINEMATIC
+          </span>
+        </div>
+
+        <div class="x5-floating-bottom-hud">
+          <div>
+            <h3 style="font-size: 18px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px;">
+              CELIRITAS X5 <span class="badge" style="font-size: 9px; padding: 2px 8px;">FLAGSHIP SUV</span>
+            </h3>
+            <span style="font-size: 12px; color: var(--text-muted);">Robotic Monocoque Crafting • Precision Factory Reveal</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button id="x5PlayVideoBtn" class="btn btn-primary" style="padding: 10px 18px; font-size: 13px;" onclick="toggleX5VideoPlay()">⏸ Pause Video</button>
+            <button class="btn btn-glass" style="padding: 10px 18px; font-size: 13px;" onclick="jumpToConfig('x5')">Configure X5 →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALL 4 CARS FLEET SHOWCASE -->
+<section class="section-wrap" id="fleet">
+  <div class="section-header">
+    <div class="badge">THE CELIRITAS FLEET</div>
+    <h2>Precision Engineered Models</h2>
+    <p>Discover the vehicle sculpted for your lifestyle.</p>
+  </div>
+
+  <div class="fleet-grid">
+    <!-- C1 -->
+    <div class="car-fleet-card">
+      <div class="car-fleet-thumb">
+        <div class="badge badge-gold" style="position: absolute; top: 14px; left: 14px; z-index: 2;">Urban Hatchback</div>
+        <img src="assets/c1.jpg" alt="Celiritas C1 Yellow">
+      </div>
+      <div class="fleet-card-body">
+        <h3>CELIRITAS C1</h3>
+        <p class="subtitle">Agile city dynamo with 360° aerodynamic design.</p>
+        <div class="fleet-price-badge">₹3.99 Lakh*</div>
+        <button class="btn btn-gold" onclick="jumpToConfig('c1')">Configure C1 →</button>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="car-fleet-card">
+      <div class="car-fleet-thumb">
+        <div class="badge badge-red" style="position: absolute; top: 14px; left: 14px; z-index: 2;">Sport Sedan</div>
+        <img src="assets/s2.jpg" alt="Celiritas S2 Sport">
+      </div>
+      <div class="fleet-card-body">
+        <h3>CELIRITAS S2</h3>
+        <p class="subtitle">High-speed thrills, rear-wheel power & sunset rushing.</p>
+        <div class="fleet-price-badge">₹5.49 Lakh*</div>
+        <button class="btn btn-primary" onclick="jumpToConfig('s2')">Configure S2 →</button>
+      </div>
+    </div>
+
+    <!-- V3 -->
+    <div class="car-fleet-card">
+      <div class="car-fleet-thumb">
+        <div class="badge" style="position: absolute; top: 14px; left: 14px; z-index: 2;">Adventure SUV</div>
+        <img src="assets/v3.jpg" alt="Celiritas V3 Red SUV">
+      </div>
+      <div class="fleet-card-body">
+        <h3>CELIRITAS V3</h3>
+        <p class="subtitle">Coastal explorer with panoramic driver cockpit POV.</p>
+        <div class="fleet-price-badge">₹7.49 Lakh*</div>
+        <button class="btn btn-primary" onclick="jumpToConfig('v3')">Configure V3 →</button>
+      </div>
+    </div>
+
+    <!-- X5 -->
+    <div class="car-fleet-card">
+      <div class="car-fleet-thumb">
+        <div class="badge" style="position: absolute; top: 14px; left: 14px; z-index: 2;">Flagship SUV</div>
+        <img src="assets/x5.jpg" alt="Celiritas X5 Silver">
+      </div>
+      <div class="fleet-card-body">
+        <h3>CELIRITAS X5</h3>
+        <p class="subtitle">Robotic precision crafting & ultimate presence.</p>
+        <div class="fleet-price-badge">₹9.49 Lakh*</div>
+        <button class="btn btn-primary" onclick="jumpToConfig('x5')">Configure X5 →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE 3D CONFIGURATOR / BUILDER -->
+<section class="section-wrap" id="configurator">
+  <div class="section-header">
+    <div class="badge">STUDIO CONFIGURATOR</div>
+    <h2>Personalize Your Vehicle</h2>
+    <p>Select trim packages, performance editions, and signature paint finishes.</p>
+  </div>
+
+  <div class="configurator-wrapper">
+    <div class="config-preview-col">
+      <div class="config-preview-box">
+        <img id="configActiveImg" src="assets/x5.jpg" alt="Configured Celiritas Vehicle">
+        <div class="config-preview-badge" id="configModelBadge">CELIRITAS X5 • FLAGSHIP LUXURY</div>
+      </div>
+
+      <!-- Live Dynamic Spec Pills -->
+      <div class="config-live-specs">
+        <div class="config-spec-pill">
+          <span class="spec-lbl">ACCEL</span>
+          <strong id="configSpecAccel">3.1s</strong>
+        </div>
+        <div class="config-spec-pill">
+          <span class="spec-lbl">RANGE</span>
+          <strong id="configSpecRange">680 KM</strong>
+        </div>
+        <div class="config-spec-pill">
+          <span class="spec-lbl">TOP SPEED</span>
+          <strong id="configSpecSpeed">280 KM/H</strong>
+        </div>
+        <div class="config-spec-pill">
+          <span class="spec-lbl">POWER</span>
+          <strong id="configSpecPower">580 HP</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="config-options-col">
+      <!-- 1. VEHICLE MODEL SELECTOR CARDS -->
+      <div class="config-section-group">
+        <div class="config-group-title">
+          <span>01. Vehicle Model</span>
+          <span id="configSelectedModelName" class="config-highlight-text">Celiritas X5 (Flagship Luxury SUV)</span>
+        </div>
+        <div class="config-model-grid">
+          <button type="button" class="config-model-card" data-model="c1" onclick="selectConfigModel('c1')">
+            <div class="model-card-header">
+              <span class="model-code">C1</span>
+              <span class="model-price">₹3.99L</span>
+            </div>
+            <div class="model-card-name">Urban Hatchback</div>
+            <div class="model-card-desc">Solar Yellow • City Agile</div>
+          </button>
+
+          <button type="button" class="config-model-card" data-model="s2" onclick="selectConfigModel('s2')">
+            <div class="model-card-header">
+              <span class="model-code">S2</span>
+              <span class="model-price">₹5.49L</span>
+            </div>
+            <div class="model-card-name">Sport Sedan</div>
+            <div class="model-card-desc">Crimson Red • Highway Track</div>
+          </button>
+
+          <button type="button" class="config-model-card" data-model="v3" onclick="selectConfigModel('v3')">
+            <div class="model-card-header">
+              <span class="model-code">V3</span>
+              <span class="model-price">₹7.49L</span>
+            </div>
+            <div class="model-card-name">Adventure SUV</div>
+            <div class="model-card-desc">Coastal Drone & Cockpit</div>
+          </button>
+
+          <button type="button" class="config-model-card active" data-model="x5" onclick="selectConfigModel('x5')">
+            <div class="model-card-header">
+              <span class="model-code">X5</span>
+              <span class="model-price">₹9.49L</span>
+            </div>
+            <div class="model-card-name">Flagship Luxury</div>
+            <div class="model-card-desc">Liquid Silver • Cyber Robotic</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. PERFORMANCE TRIM & TECH CARDS -->
+      <div class="config-section-group">
+        <div class="config-group-title">
+          <span>02. Performance Trim & Tech</span>
+          <span id="configSelectedTrimName" class="config-highlight-text">Standard Luxury Edition</span>
+        </div>
+        <div class="config-trim-list">
+          <button type="button" class="config-trim-card active" data-trim="0" onclick="selectConfigTrim(0)">
+            <div class="trim-radio-indicator"><div class="trim-radio-dot"></div></div>
+            <div class="trim-info">
+              <div class="trim-title-row">
+                <span class="trim-name">Standard Luxury Edition</span>
+                <span class="trim-price-tag">INCLUDED</span>
+              </div>
+              <div class="trim-desc">Dual Motor AWD • Premium Smart Glass • Ambient Studio Acoustics</div>
+            </div>
+          </button>
+
+          <button type="button" class="config-trim-card" data-trim="45000" onclick="selectConfigTrim(45000)">
+            <div class="trim-radio-indicator"><div class="trim-radio-dot"></div></div>
+            <div class="trim-info">
+              <div class="trim-title-row">
+                <span class="trim-name">Apex Sport Track Pack</span>
+                <span class="trim-price-tag trim-add">+ ₹45,000</span>
+              </div>
+              <div class="trim-desc">Launch Control Mode • Carbon Aero Diffuser • +30 HP Boost</div>
+            </div>
+          </button>
+
+          <button type="button" class="config-trim-card" data-trim="90000" onclick="selectConfigTrim(90000)">
+            <div class="trim-radio-indicator"><div class="trim-radio-dot"></div></div>
+            <div class="trim-info">
+              <div class="trim-title-row">
+                <span class="trim-name">Cyber Horizon Autonomous Pack</span>
+                <span class="trim-price-tag trim-add">+ ₹90,000</span>
+              </div>
+              <div class="trim-desc">Full LiDAR Array • Level 3 Highway Autopilot • Augmented Reality HUD</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. SIGNATURE PAINT FINISH -->
+      <div class="config-section-group">
+        <div class="config-group-title">
+          <span>03. Signature Paint Finish</span>
+          <span id="configPaintLabel" class="config-highlight-text">Cyber Cyan Metallic</span>
+        </div>
+        <div class="color-picker-grid">
+          <div class="color-dot active" style="background: linear-gradient(135deg, #00d2ff, #0066ff);" onclick="setConfigPaint(this, 'Cyber Cyan Metallic')" title="Cyber Cyan Metallic"></div>
+          <div class="color-dot" style="background: linear-gradient(135deg, #f5b838, #d9822b);" onclick="setConfigPaint(this, 'Solar Electric Gold')" title="Solar Electric Gold"></div>
+          <div class="color-dot" style="background: linear-gradient(135deg, #ff334b, #8a0c1b);" onclick="setConfigPaint(this, 'Crimson Dynamic Red')" title="Crimson Dynamic Red"></div>
+          <div class="color-dot" style="background: linear-gradient(135deg, #ffffff, #94a3b8);" onclick="setConfigPaint(this, 'Arctic Pure White')" title="Arctic Pure White"></div>
+          <div class="color-dot" style="background: linear-gradient(135deg, #1e293b, #030508);" onclick="setConfigPaint(this, 'Midnight Carbon Black')" title="Midnight Carbon Black"></div>
+        </div>
+      </div>
+
+      <!-- 4. TOTAL SUMMARY & RESERVE CTA -->
+      <div class="config-summary-bar">
+        <div>
+          <span style="font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px;">Total Estimated Ex-Showroom</span>
+          <div id="configPriceCalculated" class="config-calculated-price">₹9.49 Lakh</div>
+        </div>
+        <a href="#testdrive" class="btn btn-primary" style="padding: 12px 24px; font-size: 13px;" onclick="reserveCurrentConfig()">Reserve Configuration →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIP TEST DRIVE BOOKING -->
+<section class="section-wrap" id="testdrive">
+  <div class="test-drive-card">
+    <div class="badge">EXCLUSIVE ACCESS</div>
+    <h2 style="font-size: clamp(26px, 3.5vw, 36px); margin: 10px 0;">Book a VIP Test Drive</h2>
+    <p style="color: var(--text-muted); font-size: 14px;">Experience Celiritas performance in person. Fill the details below to generate your instant VIP Digital Drive Pass.</p>
+
+    <form class="td-grid-form" onsubmit="generateVIPPass(event)">
+      <input type="text" id="tdName" class="td-input-field" placeholder="Your Full Name" required>
+      <input type="tel" id="tdPhone" class="td-input-field" placeholder="Mobile Number (+91)" required>
+      <select id="tdSelectedCar" class="td-input-field">
+        <option value="CELIRITAS C1 (Yellow Hatchback)">Celiritas C1 (Urban Hatchback)</option>
+        <option value="CELIRITAS S2 (Sport Sedan)">Celiritas S2 (Sport Sedan)</option>
+        <option value="CELIRITAS V3 (Adventure SUV)">Celiritas V3 (Adventure SUV)</option>
+        <option value="CELIRITAS X5 (Flagship SUV)" selected>Celiritas X5 (Flagship Luxury SUV)</option>
+      </select>
+      <input type="date" id="tdDate" class="td-input-field" required>
+      <button type="submit" class="btn btn-primary span-full">Generate VIP Driving Pass →</button>
+    </form>
+  </div>
+</section>
+
+<!-- VIP DIGITAL PASS MODAL -->
+<div id="vipPassModal" class="vip-pass-modal" onclick="closeVIPModal(event)">
+  <div class="vip-ticket-card">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px;">
+      <img src="assets/logo_c_icon.png" alt="Celiritas Emblem" style="height: 44px; width: auto; filter: drop-shadow(0 0 18px rgba(0, 210, 255, 0.6));">
+      <img src="assets/logo_wordmark.png" alt="Celiritas Wordmark" style="height: 20px; width: auto; filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.4));">
+    </div>
+    <div class="badge badge-gold" style="margin-bottom: 14px;">OFFICIAL CELIRITAS VIP PASS</div>
+    <h3 id="ticketHolderName" style="font-size: 22px; font-weight: 800;">JOHN DOE</h3>
+    <p id="ticketCarName" style="color: var(--accent-cyan); font-weight: 700; margin: 4px 0 14px;">CELIRITAS X5</p>
+
+    <div style="background: rgba(0,0,0,0.5); padding: 14px; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 18px; font-family: var(--font-mono); font-size: 12px; text-align: left;">
+      <div>PASS ID: <span style="color: var(--accent-gold);">#CEL-2026-VIP-994</span></div>
+      <div>DATE: <span id="ticketDate" style="color:#fff">2026-09-10</span></div>
+      <div>STATUS: <span style="color: #4ade80;">CONFIRMED & RESERVED</span></div>
+    </div>
+
+    <button class="btn btn-primary" style="width: 100%;" onclick="closeVIPModal(null)">Done / Close</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;">
+    <img src="assets/logo_c_icon.png" alt="Celiritas Emblem" style="height: 26px; width: auto; filter: drop-shadow(0 0 10px rgba(0,210,255,0.4));">
+    <img src="assets/logo_wordmark.png" alt="Celiritas Wordmark" style="height: 14px; width: auto;">
+    <span style="margin-left: 6px;">© 2026 <strong>CELIRITAS AUTOMOTIVE INC.</strong> — Designed for Your Journey.</span>
+  </div>
+  <div style="color: var(--text-dim);">Fictional Automotive Digital Experience Concept.</div>
+</footer>
+
+<!-- COMPLETE JAVASCRIPT ENGINE -->
+<script>
+// AUDIO ENGINE (Web Audio API Synthesizer)
+let audioCtx = null;
+let soundEnabled = true;
+
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+
+function playHapticSound(type) {
+  if (!soundEnabled) return;
+  try {
+    initAudio();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.08);
+    } else if (type === 'rev') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(140, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(450, audioCtx.currentTime + 0.35);
+      gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.35);
+    } else if (type === 'laser') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.2);
+    }
+  } catch(e) {}
+}
+
+function toggleAudioEngine() {
+  soundEnabled = !soundEnabled;
+  const btn = document.getElementById("soundToggle");
+  if (btn) btn.textContent = soundEnabled ? "🔊" : "🔇";
+  if (soundEnabled) playHapticSound('click');
+}
+
+// 1. C1 360° CONTINUOUS ROTATION & DRAG ENGINE
+let c1Angle = 0;
+let c1Pitch = 0;
+let c1AutoSpinning = true;
+let c1LastTime = performance.now();
+const C1_CYCLE_DURATION = 8000; // 8 seconds per 360°
+
+const c1Img = document.getElementById("c1DisplayImg");
+const c1CarHolder = document.getElementById("c1CarHolder");
+const c1TurntableBase = document.getElementById("c1TurntableBase");
+const c1AngleDisplay = document.getElementById("c1AngleDisplay");
+const c1AngleSlider = document.getElementById("c1AngleSlider");
+const c13dViewport = document.getElementById("c13dViewport");
+
+const c1AngleMap = [
+  { min: 337.5, max: 360, label: "0° Front [C Emblem]" },
+  { min: 0, max: 45, label: "0° Front [C Emblem]" },
+  { min: 45, max: 135, label: "90° Side Profile" },
+  { min: 135, max: 225, label: "180° Rear Angle" },
+  { min: 225, max: 315, label: "270° Dynamic Angle" },
+  { min: 315, max: 337.5, label: "360° Return Front" }
+];
+
+function getC1Frame(deg) {
+  deg = ((deg % 360) + 360) % 360;
+  for (let f of c1AngleMap) {
+    if (deg >= f.min && deg < f.max) return f;
+  }
+  return { label: "0° Front [C Emblem]" };
+}
+
+function updateC1Angle(deg, pitchDeg) {
+  c1Angle = ((deg % 360) + 360) % 360;
+  if (pitchDeg !== undefined) {
+    c1Pitch = Math.max(-15, Math.min(15, pitchDeg));
+  }
+  const frame = getC1Frame(c1Angle);
+
+  if (c1AngleDisplay) c1AngleDisplay.textContent = c1Angle.toFixed(0) + "° — " + frame.label;
+  if (c1AngleSlider) c1AngleSlider.value = c1Angle.toFixed(0);
+
+  // 3D Tilt perspective & Turntable Floor Rotation
+  const subAngle = (c1Angle % 90) - 45;
+  if (c1CarHolder) {
+    c1CarHolder.style.transform = `rotateY(${subAngle * 0.28}deg) rotateX(${c1Pitch}deg) translateY(${c1Pitch * -0.8}px)`;
+  }
+  if (c1TurntableBase) {
+    c1TurntableBase.style.transform = `rotateX(68deg) rotateZ(${c1Angle}deg)`;
+  }
+
+  // Quick pills sync
+  document.querySelectorAll(".angle-pill-btn").forEach(btn => {
+    const pillAngle = parseInt(btn.getAttribute("onclick")?.match(/\d+/)?.[0] || 0);
+    btn.classList.toggle("active", Math.abs(c1Angle - pillAngle) < 25);
+  });
+}
+
+function c1AnimationLoop(time) {
+  if (c1AutoSpinning) {
+    const delta = time - c1LastTime;
+    c1Angle = (c1Angle + (delta / C1_CYCLE_DURATION) * 360) % 360;
+    updateC1Angle(c1Angle);
+  }
+  c1LastTime = time;
+  requestAnimationFrame(c1AnimationLoop);
+}
+requestAnimationFrame(c1AnimationLoop);
+
+function toggleC1AutoSpin() {
+  c1AutoSpinning = !c1AutoSpinning;
+  const btn = document.getElementById("c1AutoSpinBtn");
+  if (btn) btn.textContent = c1AutoSpinning ? "⏸ Pause 8s Spin" : "▶ Start 8s Spin";
+  playHapticSound('click');
+}
+
+function setC1AngleTarget(deg) {
+  c1AutoSpinning = false;
+  const btn = document.getElementById("c1AutoSpinBtn");
+  if (btn) btn.textContent = "▶ Resume Auto-Spin";
+  updateC1Angle(deg);
+  playHapticSound('click');
+}
+
+c1AngleSlider?.addEventListener("input", (e) => {
+  c1AutoSpinning = false;
+  const btn = document.getElementById("c1AutoSpinBtn");
+  if (btn) btn.textContent = "▶ Resume Auto-Spin";
+  updateC1Angle(parseFloat(e.target.value));
+});
+
+let c1HeadlightsOn = false;
+function toggleC1Headlights() {
+  c1HeadlightsOn = !c1HeadlightsOn;
+  const beam = document.getElementById("c1HeadlightBeam");
+  const btn = document.getElementById("c1HeadlightBtn");
+  if (beam) beam.classList.toggle("active", c1HeadlightsOn);
+  if (btn) {
+    btn.classList.toggle("active", c1HeadlightsOn);
+    btn.textContent = c1HeadlightsOn ? "💡 Headlights: ON (Laser)" : "💡 Headlights: OFF";
+  }
+  playHapticSound('laser');
+}
+
+function toggleC1Fullscreen() {
+  if (!c13dViewport) return;
+  c13dViewport.classList.toggle("fullscreen-active");
+  playHapticSound('click');
+}
+
+// Interactive Mouse & Touch Drag on C1 Viewport
+let isC1Dragging = false;
+let c1StartX = 0;
+let c1StartY = 0;
+let c1StartAngle = 0;
+let c1StartPitch = 0;
+
+if (c13dViewport) {
+  c13dViewport.addEventListener("mousedown", (e) => {
+    isC1Dragging = true;
+    c1StartX = e.clientX;
+    c1StartY = e.clientY;
+    c1StartAngle = c1Angle;
+    c1StartPitch = c1Pitch;
+    c1AutoSpinning = false;
+    const btn = document.getElementById("c1AutoSpinBtn");
+    if (btn) btn.textContent = "▶ Resume Auto-Spin";
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isC1Dragging) return;
+    const deltaX = e.clientX - c1StartX;
+    const deltaY = e.clientY - c1StartY;
+    updateC1Angle(c1StartAngle + deltaX * 0.7, c1StartPitch - deltaY * 0.15);
+  });
+
+  window.addEventListener("mouseup", () => { isC1Dragging = false; });
+
+  // Touch support for mobile
+  c13dViewport.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1) {
+      isC1Dragging = true;
+      c1StartX = e.touches[0].clientX;
+      c1StartY = e.touches[0].clientY;
+      c1StartAngle = c1Angle;
+      c1StartPitch = c1Pitch;
+      c1AutoSpinning = false;
+      const btn = document.getElementById("c1AutoSpinBtn");
+      if (btn) btn.textContent = "▶ Resume Auto-Spin";
+    }
+  }, { passive: true });
+
+  window.addEventListener("touchmove", (e) => {
+    if (!isC1Dragging || e.touches.length !== 1) return;
+    const deltaX = e.touches[0].clientX - c1StartX;
+    const deltaY = e.touches[0].clientY - c1StartY;
+    updateC1Angle(c1StartAngle + deltaX * 0.7, c1StartPitch - deltaY * 0.15);
+  }, { passive: true });
+
+  window.addEventListener("touchend", () => { isC1Dragging = false; });
+}
+
+// 2. S2 HIGHWAY THROTTLE SIMULATOR
+let s2Speed = 128;
+let s2Accelerating = false;
+let s2Interval;
+
+function switchS2Camera(idx, btnEl) {
+  const video = document.getElementById("s2DrivingVideo");
+  if (video && Number.isFinite(video.duration)) {
+    video.currentTime = (idx / 3) * Math.max(video.duration - 0.25, 0);
+    video.play().catch(() => {});
+  }
+  document.querySelectorAll("#studio-s2 .switch-btn").forEach(btn => btn.classList.remove("active"));
+  if (btnEl) btnEl.classList.add("active");
+  playHapticSound('click');
+}
+
+function startS2Acceleration() {
+  s2Accelerating = true;
+  playHapticSound('rev');
+  clearInterval(s2Interval);
+  s2Interval = setInterval(() => {
+    if (s2Accelerating && s2Speed < 240) {
+      s2Speed += 3;
+      const el = document.getElementById("s2SpeedNum");
+      if (el) el.textContent = s2Speed;
+    }
+  }, 40);
+}
+
+function stopS2Acceleration() {
+  s2Accelerating = false;
+  clearInterval(s2Interval);
+  s2Interval = setInterval(() => {
+    if (!s2Accelerating && s2Speed > 128) {
+      s2Speed -= 2;
+      const el = document.getElementById("s2SpeedNum");
+      if (el) el.textContent = s2Speed;
+    } else if (s2Speed <= 128) {
+      clearInterval(s2Interval);
+    }
+  }, 60);
+}
+
+// S2 SPEED PARTICLES CANVAS
+const particleCanvas = document.getElementById("speedParticlesCanvas");
+if (particleCanvas) {
+  const ctx = particleCanvas.getContext("2d");
+  let particles = [];
+  function resizeSpeedCanvas() {
+    if (!particleCanvas.parentElement) return;
+    particleCanvas.width = particleCanvas.parentElement.clientWidth;
+    particleCanvas.height = particleCanvas.parentElement.clientHeight;
+  }
+  resizeSpeedCanvas();
+  window.addEventListener("resize", resizeSpeedCanvas);
+
+  for (let i = 0; i < 40; i++) {
+    particles.push({
+      x: Math.random() * 800,
+      y: Math.random() * 500,
+      length: 20 + Math.random() * 60,
+      speed: 10 + Math.random() * 15
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+    ctx.strokeStyle = "rgba(0, 210, 255, 0.45)";
+    ctx.lineWidth = 1.5;
+
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x - p.length * (s2Speed / 120), p.y);
+      ctx.stroke();
+
+      p.x -= p.speed * (s2Speed / 120);
+      if (p.x < 0) {
+        p.x = particleCanvas.width + p.length;
+        p.y = Math.random() * particleCanvas.height;
+      }
+    });
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+}
+
+// 3. V3 DRONE & DRIVER COCKPIT POV
+function setV3ViewMode(mode) {
+  const video = document.getElementById("v3DrivingVideo");
+  const droneHud = document.getElementById("v3DroneTelemetry");
+  const cockpitHud = document.getElementById("v3CockpitOverlay");
+  const droneTab = document.getElementById("v3DroneTab");
+  const cockpitTab = document.getElementById("v3CockpitTab");
+
+  if (mode === 'drone') {
+    if (video) { video.currentTime = 0; video.play().catch(() => {}); }
+    if (droneHud) droneHud.style.display = "flex";
+    if (cockpitHud) cockpitHud.style.display = "none";
+    droneTab?.classList.add("active");
+    cockpitTab?.classList.remove("active");
+  } else {
+    if (video) { video.currentTime = Math.min(4, Math.max(0, video.duration * 0.5)); video.play().catch(() => {}); }
+    if (droneHud) droneHud.style.display = "none";
+    if (cockpitHud) cockpitHud.style.display = "block";
+    cockpitTab?.classList.add("active");
+    droneTab?.classList.remove("active");
+  }
+  playHapticSound('click');
+}
+
+// Smooth road driving loop for V3
+const v3DrivingVideo = document.getElementById("v3DrivingVideo");
+if (v3DrivingVideo) {
+  v3DrivingVideo.addEventListener("ended", () => {
+    v3DrivingVideo.currentTime = Math.min(4, Math.max(0, v3DrivingVideo.duration * 0.5));
+    v3DrivingVideo.play().catch(() => {});
+  });
+}
+
+let v3CockpitSpeed = 112;
+function accelerateV3Cockpit() {
+  v3CockpitSpeed += 12;
+  if (v3CockpitSpeed > 185) v3CockpitSpeed = 95;
+  const el = document.getElementById("v3CockpitSpeed");
+  if (el) el.textContent = v3CockpitSpeed + " KM/H";
+  playHapticSound('rev');
+}
+
+// 4. X5 ROBOTIC ASSEMBLY VIDEO CONTROLLER
+function toggleX5VideoPlay() {
+  const video = document.getElementById("x5AssemblyVideo");
+  const btn = document.getElementById("x5PlayVideoBtn");
+  if (!video) return;
+  if (video.paused) {
+    video.play().catch(() => {});
+    if (btn) btn.textContent = "⏸ Pause Video";
+  } else {
+    video.pause();
+    if (btn) btn.textContent = "▶ Play Video";
+  }
+  playHapticSound('click');
+}
+
+// STUDIO TABS SWITCHER
+function switchStudioTab(key, btnEl) {
+  document.querySelectorAll(".studio-tab-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+  if (btnEl) {
+    btnEl.classList.add("active");
+  } else {
+    const defaultBtn = document.querySelector(`.studio-tab-btn[data-tab="${key}"]`);
+    if (defaultBtn) defaultBtn.classList.add("active");
+  }
+
+  document.querySelectorAll(".studio-container").forEach(c => c.classList.remove("active"));
+  const target = document.getElementById("studio-" + key);
+  if (target) {
+    target.classList.add("active");
+    if (key === 's2' && typeof resizeSpeedCanvas === 'function') resizeSpeedCanvas();
+  }
+  playHapticSound('click');
+}
+
+// CONFIGURATOR ENGINE 2.0
+const catalog = {
+  c1: {
+    name: "Celiritas C1",
+    badge: "CELIRITAS C1 • URBAN HATCHBACK",
+    category: "Urban Hatchback",
+    basePrice: 399000,
+    img: "assets/media/c1-yellow-reference.jpeg",
+    specs: { accel: "4.8s", range: "480 KM", speed: "195 KM/H", power: "240 HP" }
+  },
+  s2: {
+    name: "Celiritas S2",
+    badge: "CELIRITAS S2 • SPORT SEDAN",
+    category: "Sport Sedan",
+    basePrice: 549000,
+    img: "assets/s2.jpg",
+    specs: { accel: "3.6s", range: "560 KM", speed: "250 KM/H", power: "380 HP" }
+  },
+  v3: {
+    name: "Celiritas V3",
+    badge: "CELIRITAS V3 • ADVENTURE SUV",
+    category: "Adventure SUV",
+    basePrice: 749000,
+    img: "assets/v3.jpg",
+    specs: { accel: "4.1s", range: "620 KM", speed: "230 KM/H", power: "420 HP" }
+  },
+  x5: {
+    name: "Celiritas X5",
+    badge: "CELIRITAS X5 • FLAGSHIP LUXURY",
+    category: "Flagship Luxury SUV",
+    basePrice: 949000,
+    img: "assets/x5.jpg",
+    specs: { accel: "3.1s", range: "680 KM", speed: "280 KM/H", power: "580 HP" }
+  }
+};
+
+let currentConfigModel = 'x5';
+let currentConfigTrimExtra = 0;
+let currentConfigTrimName = 'Standard Luxury Edition';
+
+function selectConfigModel(modelKey) {
+  currentConfigModel = modelKey;
+  document.querySelectorAll(".config-model-card").forEach(card => {
+    card.classList.toggle("active", card.getAttribute("data-model") === modelKey);
+  });
+  updateConfiguratorUI();
+  playHapticSound('click');
+}
+
+function selectConfigTrim(extraCost) {
+  currentConfigTrimExtra = extraCost;
+  const trimMap = {
+    0: 'Standard Luxury Edition',
+    45000: 'Apex Sport Track Pack',
+    90000: 'Cyber Horizon Autonomous Pack'
+  };
+  currentConfigTrimName = trimMap[extraCost] || 'Standard Luxury Edition';
+  document.querySelectorAll(".config-trim-card").forEach(card => {
+    card.classList.toggle("active", parseInt(card.getAttribute("data-trim")) === extraCost);
+  });
+  updateConfiguratorUI();
+  playHapticSound('click');
+}
+
+function updateConfiguratorUI() {
+  const data = catalog[currentConfigModel];
+  if (!data) return;
+
+  const total = data.basePrice + currentConfigTrimExtra;
+  
+  // Update Price
+  const priceEl = document.getElementById("configPriceCalculated");
+  if (priceEl) priceEl.textContent = "₹" + (total / 100000).toFixed(2) + " Lakh";
+
+  // Update Image with smooth fade
+  const imgEl = document.getElementById("configActiveImg");
+  if (imgEl && !imgEl.src.endsWith(data.img)) {
+    imgEl.style.opacity = '0.3';
+    imgEl.style.transform = 'scale(0.98)';
+    setTimeout(() => {
+      imgEl.src = data.img;
+      imgEl.style.opacity = '1';
+      imgEl.style.transform = 'scale(1)';
+    }, 150);
+  }
+
+  // Update Header Labels
+  const badgeEl = document.getElementById("configModelBadge");
+  if (badgeEl) badgeEl.textContent = data.badge;
+
+  const modelNameEl = document.getElementById("configSelectedModelName");
+  if (modelNameEl) modelNameEl.textContent = data.name + ' (' + data.category + ')';
+
+  const trimNameEl = document.getElementById("configSelectedTrimName");
+  if (trimNameEl) trimNameEl.textContent = currentConfigTrimName;
+
+  // Update Dynamic Specs
+  const specAccel = document.getElementById("configSpecAccel");
+  const specRange = document.getElementById("configSpecRange");
+  const specSpeed = document.getElementById("configSpecSpeed");
+  const specPower = document.getElementById("configSpecPower");
+
+  let hpBoost = currentConfigTrimExtra === 45000 ? 30 : (currentConfigTrimExtra === 90000 ? 15 : 0);
+  let baseHp = parseInt(data.specs.power);
+  
+  if (specAccel) specAccel.textContent = currentConfigTrimExtra === 45000 ? (parseFloat(data.specs.accel) - 0.2).toFixed(1) + "s" : data.specs.accel;
+  if (specRange) specRange.textContent = data.specs.range;
+  if (specSpeed) specSpeed.textContent = data.specs.speed;
+  if (specPower) specPower.textContent = (baseHp + hpBoost) + " HP";
+}
+
+function setConfigPaint(el, name) {
+  document.querySelectorAll(".color-dot").forEach(d => d.classList.remove("active"));
+  el.classList.add("active");
+  const paintEl = document.getElementById("configPaintLabel");
+  if (paintEl) paintEl.textContent = name;
+  playHapticSound('click');
+}
+
+function jumpToConfig(modelKey) {
+  selectConfigModel(modelKey);
+  const confSec = document.getElementById("configurator");
+  if (confSec) confSec.scrollIntoView({ behavior: "smooth" });
+}
+
+function reserveCurrentConfig() {
+  const data = catalog[currentConfigModel];
+  const tdSelect = document.getElementById("tdSelectedCar");
+  if (tdSelect && data) {
+    for (let opt of tdSelect.options) {
+      if (opt.value.toLowerCase().includes(currentConfigModel)) {
+        tdSelect.value = opt.value;
+        break;
+      }
+    }
+  }
+  playHapticSound('click');
+}
+
+// VIP PASS GENERATOR MODAL
+function generateVIPPass(e) {
+  e.preventDefault();
+  const name = document.getElementById("tdName").value;
+  const car = document.getElementById("tdSelectedCar").value;
+  const date = document.getElementById("tdDate").value;
+
+  document.getElementById("ticketHolderName").textContent = name.toUpperCase();
+  document.getElementById("ticketCarName").textContent = car;
+  document.getElementById("ticketDate").textContent = date;
+
+  document.getElementById("vipPassModal").classList.add("active");
+  playHapticSound('laser');
+}
+
+function closeVIPModal(e) {
+  if (!e || e.target.id === "vipPassModal") {
+    document.getElementById("vipPassModal").classList.remove("active");
+  }
+}
+
+// HERO VIDEO CONTROLLER
+const heroVideoPlayer = document.getElementById("heroX5VideoPlayer");
+
+function toggleHeroVideoPlay() {
+  if (!heroVideoPlayer) return;
+  const btn = document.getElementById("heroVideoPlayBtn");
+  if (heroVideoPlayer.paused) {
+    heroVideoPlayer.play().catch(() => {});
+    if (btn) btn.textContent = "⏸ Pause";
+  } else {
+    heroVideoPlayer.pause();
+    if (btn) btn.textContent = "▶ Play";
+  }
+  playHapticSound('click');
+}
+
+function toggleHeroVideoMute() {
+  if (!heroVideoPlayer) return;
+  const btn = document.getElementById("heroVideoMuteBtn");
+  heroVideoPlayer.muted = !heroVideoPlayer.muted;
+  if (btn) {
+    btn.textContent = heroVideoPlayer.muted ? "🔊 Unmute" : "🔇 Mute";
+  }
+  playHapticSound('click');
+}
+
+// MOBILE NAV
+function toggleMobileNav() {
+  const links = document.getElementById("navLinks");
+  if (links) links.classList.toggle("active");
+  playHapticSound('click');
+}
+
+function closeMobileNav() {
+  const links = document.getElementById("navLinks");
+  if (links) links.classList.remove("active");
+}
+</script>
+</body>
+</html>
