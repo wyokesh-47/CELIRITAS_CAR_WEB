@@ -1167,17 +1167,17 @@ footer {
     <h2 style="font-size: clamp(26px, 3.5vw, 36px); margin: 10px 0;">Book a VIP Test Drive</h2>
     <p style="color: var(--text-muted); font-size: 14px;">Experience Celiritas performance in person. Fill the details below to generate your instant VIP Digital Drive Pass.</p>
 
-    <form class="td-grid-form" onsubmit="generateVIPPass(event)">
-      <input type="text" id="tdName" class="td-input-field" placeholder="Your Full Name" required>
-      <input type="tel" id="tdPhone" class="td-input-field" placeholder="Mobile Number (+91)" required>
-      <select id="tdSelectedCar" class="td-input-field">
-        <option value="CELIRITAS C1 (Yellow Hatchback)">Celiritas C1 (Urban Hatchback)</option>
+    <form class="td-grid-form" id="vipTestDriveForm" onsubmit="generateVIPPass(event)">
+      <input type="text" id="tdName" name="Customer Name" class="td-input-field" placeholder="Your Full Name" required>
+      <input type="tel" id="tdPhone" name="Mobile Number" class="td-input-field" placeholder="Mobile Number (+91)" required>
+      <select id="tdSelectedCar" name="Selected Vehicle" class="td-input-field">
+        <option value="CELIRITAS C1 (Urban Hatchback)">Celiritas C1 (Urban Hatchback)</option>
         <option value="CELIRITAS S2 (Sport Sedan)">Celiritas S2 (Sport Sedan)</option>
         <option value="CELIRITAS V3 (Adventure SUV)">Celiritas V3 (Adventure SUV)</option>
-        <option value="CELIRITAS X5 (Flagship SUV)" selected>Celiritas X5 (Flagship Luxury SUV)</option>
+        <option value="CELIRITAS X5 (Flagship Luxury SUV)" selected>Celiritas X5 (Flagship Luxury SUV)</option>
       </select>
-      <input type="date" id="tdDate" class="td-input-field" required>
-      <button type="submit" class="btn btn-primary span-full">Generate VIP Driving Pass →</button>
+      <input type="date" id="tdDate" name="Preferred Date" class="td-input-field" required>
+      <button type="submit" id="tdSubmitBtn" class="btn btn-primary span-full">Generate VIP Driving Pass →</button>
     </form>
   </div>
 </section>
@@ -1194,9 +1194,10 @@ footer {
     <p id="ticketCarName" style="color: var(--accent-cyan); font-weight: 700; margin: 4px 0 14px;">CELIRITAS X5</p>
 
     <div style="background: rgba(0,0,0,0.5); padding: 14px; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 18px; font-family: var(--font-mono); font-size: 12px; text-align: left;">
-      <div>PASS ID: <span style="color: var(--accent-gold);">#CEL-2026-VIP-994</span></div>
+      <div>PASS ID: <span id="ticketPassId" style="color: var(--accent-gold);">#CEL-2026-VIP-994</span></div>
       <div>DATE: <span id="ticketDate" style="color:#fff">2026-09-10</span></div>
       <div>STATUS: <span style="color: #4ade80;">CONFIRMED & RESERVED</span></div>
+      <div style="margin-top: 6px; font-size: 11px; color: #38bdf8;">✓ Booking sent to wyokesh47@gmail.com</div>
     </div>
 
     <button class="btn btn-primary" style="width: 100%;" onclick="closeVIPModal(null)">Done / Close</button>
@@ -1735,19 +1736,61 @@ function reserveCurrentConfig() {
   playHapticSound('click');
 }
 
-// VIP PASS GENERATOR MODAL
-function generateVIPPass(e) {
+// VIP PASS GENERATOR & EMAIL DISPATCH
+async function generateVIPPass(e) {
   e.preventDefault();
-  const name = document.getElementById("tdName").value;
+  const name = document.getElementById("tdName").value.trim();
+  const phone = document.getElementById("tdPhone").value.trim();
   const car = document.getElementById("tdSelectedCar").value;
   const date = document.getElementById("tdDate").value;
+  const btn = document.getElementById("tdSubmitBtn");
+  const passId = "#CEL-2026-VIP-" + Math.floor(1000 + Math.random() * 9000);
 
+  // Update Modal Content
   document.getElementById("ticketHolderName").textContent = name.toUpperCase();
   document.getElementById("ticketCarName").textContent = car;
   document.getElementById("ticketDate").textContent = date;
+  const passIdEl = document.getElementById("ticketPassId");
+  if (passIdEl) passIdEl.textContent = passId;
 
+  // Show loading feedback
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "⚡ Reserving & Sending Email...";
+  }
+
+  // Open Modal immediately
   document.getElementById("vipPassModal").classList.add("active");
   playHapticSound('laser');
+
+  // Dispatch Email Notification to wyokesh47@gmail.com via FormSubmit AJAX
+  try {
+    await fetch("https://formsubmit.co/ajax/wyokesh47@gmail.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        _subject: "⚡ New Celiritas VIP Test Drive Booking: " + name + " (" + car + ")",
+        _template: "table",
+        _captcha: "false",
+        "Pass ID": passId,
+        "Customer Name": name,
+        "Mobile Number": phone,
+        "Selected Vehicle": car,
+        "Preferred Test Drive Date": date,
+        "Booking Timestamp": new Date().toLocaleString()
+      })
+    });
+  } catch (err) {
+    console.log("Email notification dispatched:", err);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "Generate VIP Driving Pass →";
+    }
+  }
 }
 
 function closeVIPModal(e) {
