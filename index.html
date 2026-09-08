@@ -701,8 +701,8 @@ footer {
         <div class="stat-desc">Digital Showroom</div>
       </div>
       <div>
-        <div class="stat-num">2.9<span>s</span></div>
-        <div class="stat-desc">0-100 KM/H Flagship</div>
+        <div class="stat-num">17.4<span>s</span></div>
+        <div class="stat-desc">0-1 KM Sprint</div>
       </div>
       <div>
         <div class="stat-num">720<span>km</span></div>
@@ -999,8 +999,8 @@ footer {
       <!-- Live Dynamic Spec Pills -->
       <div class="config-live-specs">
         <div class="config-spec-pill">
-          <span class="spec-lbl">ACCEL</span>
-          <strong id="configSpecAccel">3.1s</strong>
+          <span class="spec-lbl">0 - 1 KM TIME</span>
+          <strong id="configSpecAccel">17.4s</strong>
         </div>
         <div class="config-spec-pill">
           <span class="spec-lbl">RANGE</span>
@@ -1419,7 +1419,7 @@ const catalog = {
     category: "Urban Hatchback",
     basePrice: 399000,
     img: "assets/media/c1-yellow-reference.jpeg",
-    specs: { accel: "4.8s", range: "480 KM", speed: "195 KM/H", power: "240 HP" }
+    specs: { sprint1k: "27.2s", range: "480 KM", speed: "195 KM/H", power: "240 HP" }
   },
   s2: {
     name: "Celiritas S2",
@@ -1427,7 +1427,7 @@ const catalog = {
     category: "Sport Sedan",
     basePrice: 549000,
     img: "assets/s2.jpg",
-    specs: { accel: "3.6s", range: "560 KM", speed: "250 KM/H", power: "380 HP" }
+    specs: { sprint1k: "23.5s", range: "560 KM", speed: "250 KM/H", power: "380 HP" }
   },
   v3: {
     name: "Celiritas V3",
@@ -1435,7 +1435,7 @@ const catalog = {
     category: "Adventure SUV",
     basePrice: 749000,
     img: "assets/v3.jpg",
-    specs: { accel: "4.1s", range: "620 KM", speed: "230 KM/H", power: "420 HP" }
+    specs: { sprint1k: "20.8s", range: "620 KM", speed: "230 KM/H", power: "420 HP" }
   },
   x5: {
     name: "Celiritas X5",
@@ -1443,7 +1443,7 @@ const catalog = {
     category: "Flagship Luxury SUV",
     basePrice: 949000,
     img: "assets/x5.jpg",
-    specs: { accel: "3.1s", range: "680 KM", speed: "280 KM/H", power: "580 HP" }
+    specs: { sprint1k: "17.4s", range: "680 KM", speed: "280 KM/H", power: "580 HP" }
   }
 };
 
@@ -1516,7 +1516,16 @@ function updateConfiguratorUI() {
   let hpBoost = currentConfigTrimExtra === 45000 ? 30 : (currentConfigTrimExtra === 90000 ? 15 : 0);
   let baseHp = parseInt(data.specs.power);
   
-  if (specAccel) specAccel.textContent = currentConfigTrimExtra === 45000 ? (parseFloat(data.specs.accel) - 0.2).toFixed(1) + "s" : data.specs.accel;
+  if (specAccel) {
+    const baseSprint = parseFloat(data.specs.sprint1k);
+    if (currentConfigTrimExtra === 45000) {
+      specAccel.textContent = (baseSprint - 1.2).toFixed(1) + "s";
+    } else if (currentConfigTrimExtra === 90000) {
+      specAccel.textContent = (baseSprint - 0.5).toFixed(1) + "s";
+    } else {
+      specAccel.textContent = data.specs.sprint1k;
+    }
+  }
   if (specRange) specRange.textContent = data.specs.range;
   if (specSpeed) specSpeed.textContent = data.specs.speed;
   if (specPower) specPower.textContent = (baseHp + hpBoost) + " HP";
