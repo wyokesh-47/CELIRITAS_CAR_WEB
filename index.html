@@ -827,7 +827,6 @@ footer {
       <video id="s2DrivingVideo" class="s2-driving-video" autoplay muted loop playsinline preload="metadata" poster="assets/s2.jpg">
         <source src="assets/media/s2-driving.mp4" type="video/mp4">
       </video>
-      <canvas id="speedParticlesCanvas"></canvas>
 
       <div class="s2-cockpit-hud">
         <div class="speed-dial-gauge">
@@ -1335,50 +1334,6 @@ function stopS2Acceleration() {
   }, 60);
 }
 
-// S2 SPEED PARTICLES CANVAS
-const particleCanvas = document.getElementById("speedParticlesCanvas");
-if (particleCanvas) {
-  const ctx = particleCanvas.getContext("2d");
-  let particles = [];
-  function resizeSpeedCanvas() {
-    if (!particleCanvas.parentElement) return;
-    particleCanvas.width = particleCanvas.parentElement.clientWidth;
-    particleCanvas.height = particleCanvas.parentElement.clientHeight;
-  }
-  resizeSpeedCanvas();
-  window.addEventListener("resize", resizeSpeedCanvas);
-
-  for (let i = 0; i < 40; i++) {
-    particles.push({
-      x: Math.random() * 800,
-      y: Math.random() * 500,
-      length: 20 + Math.random() * 60,
-      speed: 10 + Math.random() * 15
-    });
-  }
-
-  function drawParticles() {
-    ctx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
-    ctx.strokeStyle = "rgba(0, 210, 255, 0.45)";
-    ctx.lineWidth = 1.5;
-
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.moveTo(p.x, p.y);
-      ctx.lineTo(p.x - p.length * (s2Speed / 120), p.y);
-      ctx.stroke();
-
-      p.x -= p.speed * (s2Speed / 120);
-      if (p.x < 0) {
-        p.x = particleCanvas.width + p.length;
-        p.y = Math.random() * particleCanvas.height;
-      }
-    });
-    requestAnimationFrame(drawParticles);
-  }
-  drawParticles();
-}
-
 // 3. V3 DRONE & DRIVER COCKPIT POV
 function setV3ViewMode(mode) {
   const video = document.getElementById("v3DrivingVideo");
@@ -1452,7 +1407,6 @@ function switchStudioTab(key, btnEl) {
   const target = document.getElementById("studio-" + key);
   if (target) {
     target.classList.add("active");
-    if (key === 's2' && typeof resizeSpeedCanvas === 'function') resizeSpeedCanvas();
   }
   playHapticSound('click');
 }
